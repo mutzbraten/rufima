@@ -36,7 +36,6 @@ export class AppComponent {
   }
 
   @ViewChild('fileImportInput') fileImportInput: any;
-
   public myUploader(event, form) {
     console.log('Reading file...');
     for (const file of event.files) {
@@ -115,7 +114,6 @@ export class AppComponent {
             },
             didParseCell: (data) => {
               if (data.section === 'body') {
-                console.log('xxx');
                 switch (data.column.dataKey) {
                   case 'Bruttobeitrag':
                     let content = data.cell.text[0];
