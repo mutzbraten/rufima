@@ -1,57 +1,35 @@
-<h1>NgxCSVParser by <a href="https://DevelopersHive.com">Developers Hive</a></h1>
-<div class="csv-file-chooser-section">
-
-  <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)"
-    accept=".csv" />
-
-  <label>
-    Parse Headers?
-  </label>
-  <select aria-placeholder="Parse headers?" [(ngModel)]="header">
-    <option [value]="true">Yes</option>
-    <option [value]="false">No</option>
-  </select>
-</div>
-
-<div class="csv-result-table">
-
-  <table>
-    <thead>
+<h1>Rufima PDF</h1>
+Vertragsübersicht aus CSV
+<p-fileUpload #form
+              name="myfile[]"
+              chooseLabel="CSV Datei laden"
+              multiple="multiple"
+              customUpload="true"
+              accept="{{filetype}}"
+              maxFileSize="{{maxFileSize}}"
+              [auto]="true"
+              (uploadHandler)="myUploader($event, form)"
+></p-fileUpload>
+  <p-table id="datatable" #dt [value]="csvRecords">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex" *ngIf="csvRecords.length != 0">
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom" label="Als PDF speichern"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom" label="Als XLS speichern"></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
       <tr>
-        <th>#</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>Title</th>
-        <th>Occupation</th>
+        <th *ngFor="let col of headers" width="200">
+          {{col}}
+        </th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let csvData of csvRecords;let i = index;">
-
-        <td>{{i+1}}</td>
-        <td>
-          <span>{{csvData.firstName}}</span>
+    </ng-template>
+    <ng-template pTemplate="body" let-csvData>
+      <tr>
+        <td *ngFor="let col of headers">
+        {{csvData[col]}}
         </td>
-        <td>
-          <span>{{csvData.lastName}}</span>
-        </td>
-        <td>
-          <span>{{csvData.email}}</span>
-        </td>
-        <td>
-          <span>{{csvData.phoneNumber}}</span>
-        </td>
-        <td>
-          <span>{{csvData.title}}</span>
-        </td>
-        <td>
-          <span>{{csvData.occupation}}</span>
-        </td>
-
       </tr>
-    </tbody>
-  </table>
+    </ng-template>
+  </p-table>
 
-</div>

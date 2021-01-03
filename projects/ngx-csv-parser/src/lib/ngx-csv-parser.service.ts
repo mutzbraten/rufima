@@ -45,6 +45,8 @@ export class NgxCsvParser {
 
                         const headersRow = this.getHeaderArray(csvRecordsArray);
 
+                        observer.next(headersRow);
+
                         csvRecords = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length, config);
 
                         observer.next(csvRecords);
